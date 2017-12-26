@@ -1,56 +1,56 @@
 <!doctype html>
 <html>
   <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
+    <title>Party Queue</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <style type="text/css">
       #login, #loggedin {
         display: none;
       }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
+      body {
+        margin: auto;
       }
     </style>
   </head>
 
   <body>
+
     <div class="container">
       <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        <h1>Spotify Party Queue</h1>
+        <p>To use, login with email <code>throwaway@joshspicer.com</code></p>
+        <p>The password will be provided at the party!</p>
+        <p>Once signed in, just type the name of any track.  The first result will be added to the party's playlist.</p>
+        <a href="/login" class="btn btn-primary">Enter Site</a>
       </div>
+
       <div id="loggedin">
         <div id="user-profile">
         </div>
         <div id="oauth">
         </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-      </div>
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
+      <!--<h1>Logged in as {{display_name}}</h1>-->
+      <h1>Enter a SONG!</h1>
       <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
-        </div>
+        <!--<div class="pull-left">-->
+          <!--<img class="media-object" width="150" src="{{images.0.url}}" />-->
+        <!--</div>-->
         <div class="media-body">
           <dl class="dl-horizontal">
 
             <form action="/saveInput" method="GET">
-              <input type="text" name="mytext" required />
-              <input type="submit" value="Submit" />
+              <input type="text" class="form-control" rows="3" name="mytext" required />
+              <br>
+              <input class="btn btn-success" type="submit" value="Add Song" />
             </form>
 
-              <br><br>
-              <a href="/search" class="btn btn-primary">1st: Search test</a>
-              <br><br>
-              <a href="/addsong" class="btn btn-primary">2nd: Add song to playlist</a>
-
-
+              <!--<br><br>-->
+              <!--<a href="/search" class="btn btn-primary">1st: Search test</a>-->
+              <!--<br><br>-->
+              <!--<a href="/addsong" class="btn btn-primary">2nd: Add song to playlist</a>-->
 
 
             <!-- <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd> -->
@@ -66,16 +66,7 @@
       </div>
     </script>
 
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
-        <dt>Name: </dt><dd class="text-overflow">{{name}}></dd>
-
-      </dl>
-    </script>
-
+    <script id="oauth-template" type="text/x-handlebars-template"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
