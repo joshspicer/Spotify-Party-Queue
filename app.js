@@ -8,6 +8,7 @@
  */
 
 var express = require('express'); // Express web server framework
+var session = require('express-session');
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -267,6 +268,9 @@ app.get('/refresh_token', function(req, res) {
 });
 
 // ----------------------------------------------------------
+var port = process.env.PORT || 3000;
 
-console.log('Listening on 8888');
-app.listen(8888);
+app.listen(port);
+
+console.log('Listening on: ' + port);
+
