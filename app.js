@@ -18,7 +18,11 @@ var Spotify = require('node-spotify-api');
 
 var client_id = '088e0745e49b44549f3521d2a209dd30'; // Your client id
 var client_secret = 'a65682010e924c10909f0a14c22c07c6'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+
+//var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+
+var redirect_url = 'https://spotifypartyqueue.herokuapp.com/callback';
+
 
 var spotify = new Spotify({
   id: client_id,
