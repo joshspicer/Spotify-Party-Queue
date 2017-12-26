@@ -1,0 +1,19 @@
+{
+  "name": "spotifypartyqueue",
+  "version": "1.0.0",
+  "description": "My first try with Spotifys API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Josh Spicer",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "node-spotify-api": "^1.0.7",
+    "querystring": "^0.2.0",
+    "request": "^2.83.0"
+  }
+}
