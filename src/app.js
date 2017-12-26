@@ -20,13 +20,13 @@ var client_secret = 'a65682010e924c10909f0a14c22c07c6'; // Your secret
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 var spotify = new Spotify({
-id: client_id,
-secret: client_secret
+  id: client_id,
+  secret: client_secret
 });
 
 
 var the_token;
-
+var the_refresh;
 var targetToSearch;
 var foundID;
 
@@ -59,7 +59,7 @@ app.use(express.static(__dirname + '/public'))
 // ---------------------------------------------------------------
 
 app.get('/saveInput', function(req, res){
-       var myText = req.query.mytext; //mytext is the name of your input box
+       var myText = req.query.mytext; //input box
        targetToSearch = myText;
        res.redirect('/search'); //REDIRECT
    });
@@ -72,18 +72,19 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
+  var scope = 'playlist-modify-private user-read-private user-read-email user-read-playback-state playlist-modify-public';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
-      state: state
+      state: state,
+      show_dialog: true
     }));
 });
 
-//*****************
+//----------------------------------------------------------------------
 
 app.get('/callback', function(req, res) {
 
@@ -120,9 +121,9 @@ app.get('/callback', function(req, res) {
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-
         // JOSH
         the_token = body.access_token;
+        the_refresh = body.refresh_token;
 
         var options = {
           url: 'https://api.spotify.com/v1/me',
@@ -161,20 +162,22 @@ app.get('/addsong', function(req,res) {
 
   //var song = 'spotify:track:0yTJtxZJ5VLfBEHhiNUNeY';
 
-var str = {
-  url: 'https://api.spotify.com/v1/users/joshspicer37/playlists/5eZ2TL5zTxLq2O2cCLL5Ih' +
-  '/tracks?uris=' + foundID,
+var song = {
+ // url: 'https://api.spotify.com/v1/users/joshspicer37/playlists/5eZ2TL5zTxLq2O2cCLL5Ih' +
+//  '/tracks?uris=' + foundID,
+    url: 'https://api.spotify.com/v1/users/d9tq5qoypo7ltv0ueu21s6sfi/playlists/3A0yYPAlL8x1xubuKfzp69' +
+     '/tracks?uris=' + foundID,
   headers: { 'Authorization': 'Bearer ' + the_token
             , 'Host': 'api.spotify.com',
               'Accept': 'application/json',
-              'Content-Type': 'application/json', },
+              'Content-Type': 'application/json' },
   json: true
 };
 
   // use the access token to access the Spotify Web API
-  request.post(str, function(error, response, body) {
-    //console.log(body);
-  }).then(res.redirect('/success.html'));
+  request.post(song);
+
+  res.redirect('/#access_token=' + the_token + '&refresh_token=' + the_refresh);
 
   console.log("add song DONE");
 
@@ -188,7 +191,6 @@ app.get('/search', function (req,res) {
 
   // var searchQuery = document.getElementById("searchParam").value;
   //var searchQuery = "chasing cars";
-
 
   spotify
     .search({ type: 'track', query: targetToSearch,limit: 5})
