@@ -1,12 +1,3 @@
-/**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- */
-
 var express = require('express'); // Express web server framework
 var session = require('express-session');
 var request = require('request'); // "Request" library
@@ -19,16 +10,31 @@ var Spotify = require('node-spotify-api');
 var client_id = '088e0745e49b44549f3521d2a209dd30'; // Your client id
 var client_secret = 'a65682010e924c10909f0a14c22c07c6'; // Your secret
 
-//var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+//var redirect_uri = 'http://spotifypartyqueue.herokuapp.com/callback';
 
-var redirect_uri = 'http://spotifypartyqueue.herokuapp.com/callback';
+var playlist_username = 'd9tq5qoypo7ltv0ueu21s6sfi';
+var playlist_uid = '3A0yYPAlL8x1xubuKfzp69';
 
+
+// --------------------------------------------------------
+var storage = require('node-persist');
+
+storage.initSync();
+
+//then start using it
+// storage.setItemSync('name','yourname');
+// console.log(storage.getItemSync('name')); // yourname
+
+console.log(storage.getItemSync('token'));
+console.log(storage.getItemSync('refresh'));
+
+// --------------------------------------------------------
 
 var spotify = new Spotify({
   id: client_id,
   secret: client_secret
 });
-
 
 var the_token;
 var the_refresh;
@@ -71,6 +77,17 @@ app.get('/saveInput', function(req, res){
 
 // ---------------------------------------------------------------
 
+// Redirect once we authorize!
+app.get('/go', function(req, res) {
+    the_token = storage.getItemSync('token');
+    the_refresh = storage.getItemSync('refresh');
+    res.redirect('/#access_token=' + the_token + '&refresh_token=' + the_refresh);
+
+});
+
+// --------------------------------------------------------
+
+
 app.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
@@ -85,7 +102,7 @@ app.get('/login', function(req, res) {
       scope: scope,
       redirect_uri: redirect_uri,
       state: state,
-      show_dialog: true
+    //  show_dialog: true
     }));
 });
 
@@ -129,6 +146,8 @@ app.get('/callback', function(req, res) {
         // JOSH
         the_token = body.access_token;
         the_refresh = body.refresh_token;
+        storage.setItemSync('token',the_token);
+        storage.setItemSync('refresh',the_refresh);
 
         var options = {
           url: 'https://api.spotify.com/v1/me',
@@ -157,8 +176,6 @@ app.get('/callback', function(req, res) {
   }
 });
 
-
-
 //-----------------------------------------------------------
 
 app.get('/addsong', function(req,res) {
@@ -170,7 +187,7 @@ app.get('/addsong', function(req,res) {
 var song = {
  // url: 'https://api.spotify.com/v1/users/joshspicer37/playlists/5eZ2TL5zTxLq2O2cCLL5Ih' +
 //  '/tracks?uris=' + foundID,
-    url: 'https://api.spotify.com/v1/users/d9tq5qoypo7ltv0ueu21s6sfi/playlists/3A0yYPAlL8x1xubuKfzp69' +
+    url: 'https://api.spotify.com/v1/users/' + playlist_username +'/playlists/' + playlist_uid +
      '/tracks?uris=' + foundID,
   headers: { 'Authorization': 'Bearer ' + the_token
             , 'Host': 'api.spotify.com',
@@ -213,38 +230,12 @@ app.get('/search', function (req,res) {
 
     });
 
-  // var theRequest = {
-  //   url: 'https://api.spotify.com/v1/search?q=silvertongue&type=track',
-  //   headers: { 'Authorization': 'Bearer ' + the_token,
-  //              'Host': 'api.spotify.com'},
-  //   json: true
-  // };
-
-  // // use the access token to access the Spotify Web API
-  // request.get(theRequest, function(error, response, body) {
-  //   console.log("Sent Request");
-  // }).then(function(response) {
-  //   console.log(response);
-  // });
-  //
-  // request.get(theRequest)
-  // .on('response', function(response) {
-  //   console.log(response.statusCode) // 200
-  //   console.log("-----------------------")
-  //   console.log(response)
-  //   console.log("-----------------------")
-  // }).then(function(response) {
-  //
-  // })
-
-
   console.log("End search");
 
 });
 
 
 // --------------------------------------------------------
-
 
 
 app.get('/refresh_token', function(req, res) {
@@ -271,10 +262,9 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-// ----------------------------------------------------------
+// ---------------------------------------------------------- //
 var port = process.env.PORT || 3000;
 
 app.listen(port);
 
 console.log('Listening on: ' + port);
-

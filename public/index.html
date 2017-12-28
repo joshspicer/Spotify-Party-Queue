@@ -11,6 +11,8 @@
         margin: auto;
       }
     </style>
+    <!--Scale nice on mobile!-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
@@ -18,10 +20,8 @@
     <div class="container">
       <div id="login">
         <h1>Spotify Party Queue</h1>
-        <p>To use, login with email <code>throwaway@joshspicer.com</code></p>
-        <p>The password will be provided at the party!</p>
-        <p>Once signed in, just type the name of any track.  The first result will be added to the party's playlist.</p>
-        <a href="/login" class="btn btn-primary">Enter Site</a>
+        <a href="/login" class="btn btn-danger">Authorize</a>
+        <a href="/go" class="btn btn-lg btn-success">--- ENTER ---</a>
       </div>
 
       <div id="loggedin">
