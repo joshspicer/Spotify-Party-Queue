@@ -10,8 +10,8 @@ var Spotify = require('node-spotify-api');
 var client_id = '088e0745e49b44549f3521d2a209dd30'; // Your client id
 var client_secret = 'a65682010e924c10909f0a14c22c07c6'; // Your secret
 
-var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
-//var redirect_uri = 'http://spotifypartyqueue.herokuapp.com/callback';
+//var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+var redirect_uri = 'http://spotifypartyqueue.herokuapp.com/callback';
 
 var playlist_username = 'd9tq5qoypo7ltv0ueu21s6sfi';
 var playlist_uid = '3A0yYPAlL8x1xubuKfzp69';
