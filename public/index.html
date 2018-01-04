@@ -35,33 +35,17 @@
       <!--<h1>Logged in as {{display_name}}</h1>-->
       <h1>Enter a SONG!</h1>
       <div class="media">
-        <!--<div class="pull-left">-->
-          <!--<img class="media-object" width="150" src="{{images.0.url}}" />-->
-        <!--</div>-->
         <div class="media-body">
           <dl class="dl-horizontal">
-
             <form action="/saveInput" method="GET">
               <input type="text" class="form-control" rows="3" name="mytext" required />
               <br>
               <input class="btn btn-success" type="submit" value="Add Song" />
             </form>
-
-              <!--<br><br>-->
-              <!--<a href="/search" class="btn btn-primary">1st: Search test</a>-->
-              <!--<br><br>-->
-              <!--<a href="/addsong" class="btn btn-primary">2nd: Add song to playlist</a>-->
-
-
-            <!-- <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd> -->
-            <!-- <dt>Id</dt><dd>{{id}}</dd> -->
-            <!-- <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd> -->
-            <!-- <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd> -->
-            <!-- <dt>Country</dt><dd>{{country}}</dd> -->
-
           </dl>
+
+          <br><br><a href="/refresh_token" class="btn btn-danger">DEBUG</a>
+          <br><br><p>Adding {{song name by artist}} || {{not found}}</p>
         </div>
       </div>
     </script>

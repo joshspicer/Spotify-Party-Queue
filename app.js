@@ -102,7 +102,7 @@ app.get('/login', function(req, res) {
       scope: scope,
       redirect_uri: redirect_uri,
       state: state,
-    //  show_dialog: true
+      show_dialog: true
     }));
 });
 
@@ -199,7 +199,10 @@ var song = {
   // use the access token to access the Spotify Web API
   request.post(song);
 
-  res.redirect('/#access_token=' + the_token + '&refresh_token=' + the_refresh);
+
+  //res.redirect('/#access_token=' + the_token + '&refresh_token=' + the_refresh);
+    // REFRESH TOKEN AFTER EVERY SUBMIT!!
+    res.redirect('/refresh_token');
 
   console.log("add song DONE");
 
@@ -247,7 +250,7 @@ app.get('/refresh_token', function(req, res) {
     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
     form: {
       grant_type: 'refresh_token',
-      refresh_token: refresh_token
+      refresh_token: the_refresh //JOSH
     },
     json: true
   };
@@ -255,9 +258,21 @@ app.get('/refresh_token', function(req, res) {
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
+
+        // JOSH --- TEST
+        the_token = body.access_token;
+        //the_refresh = body.refresh_token;
+        storage.setItemSync('token',the_token);
+       // storage.setItemSync('refresh',the_refresh);
+        console.log("REFRESHING TOKEN");
+
+
+      // res.send({
+      //   'access_token': access_token
+      // });
+
+        // ALL DONE!
+        res.redirect('/#access_token=' + the_token + '&refresh_token=' + the_refresh);
     }
   });
 });
