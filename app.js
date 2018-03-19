@@ -7,8 +7,8 @@ var cookieParser = require('cookie-parser');
 //https://www.npmjs.com/package/node-spotify-api
 var Spotify = require('node-spotify-api');
 
-var client_id = '088e0745e49b44549f3521d2a209dd30'; // Your client id
-var client_secret = 'a65682010e924c10909f0a14c22c07c6'; // Your secret
+var client_id = ''; // Your client id
+var client_secret = ''; // Your secret
 
 //var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 var redirect_uri = 'http://spotifypartyqueue.herokuapp.com/callback';
